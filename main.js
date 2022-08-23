@@ -5,6 +5,7 @@ const btnsToShow = document.querySelectorAll(".show");
 const answer = document.querySelector(".answer");
 const equalToBtn = document.querySelector("#equal");
 const deleteBtn = document.querySelector("#delete");
+const clearBtn = document.querySelector("#clear");
 const scientificBtnGroup = document.querySelector("#scientific");
 const openBtn = document.querySelector("#open");
 
@@ -23,9 +24,6 @@ const blinkColor = (e, color) => {
 const showBtnsValue = (e) => {
 	let btnValue = e.target.value;
 	const input = document.querySelector("#input");
-	// if (!Number(btnValue) && btnValue != '0' && btnValue != '.') {
-	//  btnValue = ` ${btnValue} `
-	//  }
 
 	input.value += btnValue;
 };
@@ -98,11 +96,36 @@ btnsToShow.forEach((button) => {
 	});
 });
 
+window.addEventListener("keydown", (e) => {
+	// To identify what key the user pressed
+	let key = e.key;
+
+
+	numbersButtonGroup.forEach((button) => {
+		if (button.value === key) {
+			button.click();
+		}
+	});
+
+	operatorsButtonGroup.forEach((button) => {
+		if (button.value === key) {
+			button.click();
+		}
+	});
+
+	if (key === "Backspace") {
+		deleteBtn.click();
+	} else if (key === "Delete") {
+		clearBtn.click();
+	} else if (key === "Enter") {
+		equalToBtn.click();
+	}
+});
+
 equalToBtn.addEventListener("click", evaluate);
 
 deleteBtn.addEventListener("click", deleteSingleNumber);
-deleteBtn.addEventListener("dblclick", clearScreen);
-
+clearBtn.addEventListener("click", clearScreen);
 openBtn.addEventListener("click", openModal);
 
 window.onload = clearScreen();
