@@ -1,13 +1,14 @@
 // Get Elements from the DOM
-const numbersButtonGroup = document.querySelectorAll(".numbers button");
-const operatorsButtonGroup = document.querySelectorAll(".operators button");
-const btnsToShow = document.querySelectorAll(".show");
-const answer = document.querySelector(".answer");
-const equalToBtn = document.querySelector("#equal");
-const deleteBtn = document.querySelector("#delete");
-const clearBtn = document.querySelector("#clear");
-const scientificBtnGroup = document.querySelector("#scientific");
-const openBtn = document.querySelector("#open");
+const numbersButtonGroup = document.querySelectorAll(".numbers button"),
+	operatorsButtonGroup = document.querySelectorAll(".operators button"),
+	btnsToShow = document.querySelectorAll(".show"),
+	mathBtns = document.querySelectorAll(".math-btn"),
+	answer = document.querySelector(".answer"),
+	equalToBtn = document.querySelector("#equal"),
+	deleteBtn = document.querySelector("#delete"),
+	clearBtn = document.querySelector("#clear"),
+	scientificBtnGroup = document.querySelector("#scientific"),
+	openBtn = document.querySelector("#open");
 
 // Checks if the scientific menu is open
 let isOpen = false;
@@ -28,6 +29,31 @@ const showBtnsValue = (e) => {
 	input.value += btnValue;
 };
 
+const calculateScientifically = (e) => {
+	let btnValue = e.target.value;
+	if (btnValue === "sin") {
+		console.log("sine");
+		evaluateMaths(Math.sin);
+	}
+	else if (btnValue === "cos") { 
+		evaluateMaths(Math.cos);
+	}
+	else if (btnValue === "tan") { 
+		evaluateMaths(Math.tan);
+	}
+	else evaluateMaths(Math.sqrt);
+}
+
+const evaluateMaths = (mathFunction) => {
+	const input = document.querySelector("#input");
+	let result = Function(`return ${mathFunction(input.value)}`)();
+	if (result) {
+		answer.innerHTML = result;
+	} else {
+		answer.innerHTML = "";
+	}
+}
+
 // Evaluate the equation and display result
 const evaluate = () => {
 	const input = document.querySelector("#input");
@@ -47,11 +73,6 @@ const deleteSingleNumber = () => {
 	let lastNumber = inputStringToArray[inputStringToArray.length - 1];
 
 	let result;
-	//if (lastNumber === " ") {
-	//  result = inputString.slice(0, -3);
-	// } else {
-	//   result = inputString.slice(0, -1)
-	// }
 	result = inputString.slice(0, -1);
 	input.value = result;
 };
@@ -78,6 +99,8 @@ const openModal = () => {
 };
 
 // Event Listeners
+
+// Add blink effect to buttons
 numbersButtonGroup.forEach((button) => {
 	button.addEventListener("click", (e) => {
 		blinkColor(e, "num-hover");
@@ -90,16 +113,22 @@ operatorsButtonGroup.forEach((button) => {
 	});
 });
 
+// Show button values on click
 btnsToShow.forEach((button) => {
 	button.addEventListener("click", (e) => {
 		showBtnsValue(e);
 	});
 });
 
+mathBtns.forEach(button => {
+	button.addEventListener("click", (e) => {
+		calculateScientifically(e);
+	})
+})
+
 window.addEventListener("keydown", (e) => {
 	// To identify what key the user pressed
 	let key = e.key;
-
 
 	numbersButtonGroup.forEach((button) => {
 		if (button.value === key) {
