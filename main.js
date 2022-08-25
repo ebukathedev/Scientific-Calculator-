@@ -3,15 +3,37 @@ const numbersButtonGroup = document.querySelectorAll(".numbers button"),
 	operatorsButtonGroup = document.querySelectorAll(".operators button"),
 	btnsToShow = document.querySelectorAll(".show"),
 	mathBtns = document.querySelectorAll(".math-btn"),
+	trigBtns = document.querySelectorAll(".trig"),
+	modeBtns = document.querySelectorAll(".mode button"),
 	answer = document.querySelector(".answer"),
 	equalToBtn = document.querySelector("#equal"),
 	deleteBtn = document.querySelector("#delete"),
 	clearBtn = document.querySelector("#clear"),
+	inverseBtn = document.querySelector("#inverse"),
 	scientificBtnGroup = document.querySelector("#scientific"),
 	openBtn = document.querySelector("#open");
 
 // Checks if the scientific menu is open
 let isOpen = false;
+
+// Mode selected
+let mode = "rad";
+
+// Checks if inverse button is active
+let isInverse = false;
+
+const changeModeAndToggleClass = (btn) => {
+	// the button getting clicked
+	btn.classList.add("active-mode");
+	mode = btn.id;
+
+	// Compare the button getting clicked to all the buttons in the original array and remove the active class if id does not match
+	modeBtns.forEach((button) => {
+		if (btn.id !== button.id) {
+			button.classList.remove("active-mode");
+		}
+	});
+};
 
 // Button color blink effect
 const blinkColor = (e, color) => {
@@ -34,15 +56,12 @@ const calculateScientifically = (e) => {
 	if (btnValue === "sin") {
 		console.log("sine");
 		evaluateMaths(Math.sin);
-	}
-	else if (btnValue === "cos") { 
+	} else if (btnValue === "cos") {
 		evaluateMaths(Math.cos);
-	}
-	else if (btnValue === "tan") { 
+	} else if (btnValue === "tan") {
 		evaluateMaths(Math.tan);
-	}
-	else evaluateMaths(Math.sqrt);
-}
+	} else evaluateMaths(Math.sqrt);
+};
 
 const evaluateMaths = (mathFunction) => {
 	const input = document.querySelector("#input");
@@ -52,7 +71,7 @@ const evaluateMaths = (mathFunction) => {
 	} else {
 		answer.innerHTML = "";
 	}
-}
+};
 
 // Evaluate the equation and display result
 const evaluate = () => {
@@ -100,6 +119,13 @@ const openModal = () => {
 
 // Event Listeners
 
+modeBtns.forEach((button) => {
+	button.addEventListener("click", (e) => {
+		let btn = e.target;
+		changeModeAndToggleClass(btn);
+	});
+});
+
 // Add blink effect to buttons
 numbersButtonGroup.forEach((button) => {
 	button.addEventListener("click", (e) => {
@@ -120,11 +146,31 @@ btnsToShow.forEach((button) => {
 	});
 });
 
-mathBtns.forEach(button => {
+mathBtns.forEach((button) => {
 	button.addEventListener("click", (e) => {
 		calculateScientifically(e);
-	})
-})
+	});
+});
+
+const changeToArcTrig = (value) => {
+	trigBtns.forEach((button) => {
+		if (value) {
+			button.innerHTML = `${button.value}<sup><small>-1</small></sup>`;
+		} else {
+			button.innerHTML = `${button.value}`;
+		}
+	});
+};
+
+inverseBtn.addEventListener("click", () => {
+	isInverse = !isInverse;
+	if (isInverse) {
+		inverseBtn.classList.add("active-inverse");
+	} else {
+		inverseBtn.classList.remove("active-inverse");
+	}
+	changeToArcTrig(isInverse);
+});
 
 window.addEventListener("keydown", (e) => {
 	// To identify what key the user pressed
@@ -152,7 +198,6 @@ window.addEventListener("keydown", (e) => {
 });
 
 equalToBtn.addEventListener("click", evaluate);
-
 deleteBtn.addEventListener("click", deleteSingleNumber);
 clearBtn.addEventListener("click", clearScreen);
 openBtn.addEventListener("click", openModal);
