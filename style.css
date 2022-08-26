@@ -125,7 +125,6 @@ main {
 	overflow: hidden;
 	padding-bottom: 5rem;
 	gap: 2rem;
-	border-bottom: 1px solid yellow;
 }
 
 .buttons-sub-container button {
