@@ -4,6 +4,7 @@
 	--display-bg: #442e39;
 	--accent: #ffe19c;
 	--dark-accent: #e5cb8c;
+	--very-dark-accent: #cfb77f;
 	--num-btn-bg: #6d3f21;
 	--operator-btn-bg: #ec9b05;
 	--dark-orange: #c98505;
@@ -124,6 +125,7 @@ main {
 	overflow: hidden;
 	padding-bottom: 5rem;
 	gap: 2rem;
+	border-bottom: 1px solid yellow;
 }
 
 .buttons-sub-container button {
@@ -144,6 +146,10 @@ main {
 	background-color: var(--dark-accent);
 	color: var(--calc-bg);
 	border-radius: 30px;
+}
+
+#clear:hover {
+	background-color: var(--very-dark-accent);
 }
 
 .numbers {
@@ -236,8 +242,13 @@ main {
 }
 
 #inverse,
-#pi {
+#pi,
+#ans {
 	font-variant: small-caps;
+}
+
+#ans {
+	grid-column: 1 / -1;
 }
 
 #inverse.active-inverse {
@@ -263,13 +274,13 @@ main {
 	}
 
 	to {
-		top: 31%;
+		top: 16%;
 	}
 }
 
 @keyframes fadeOut {
 	from {
-		top: 31%;
+		top: 16%;
 	}
 
 	99% {
