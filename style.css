@@ -54,6 +54,7 @@ main {
 	justify-content: center;
 	align-items: center;
 	background-color: var(--main-bg);
+        padding: 0 0.5rem;
 }
 
 .container {
